@@ -6,11 +6,6 @@ import React from "react";
 const NavBar = async () => {
   const session = await auth();
 
-  const userName = session?.user?.name
-    ? session?.user?.name.split(" ")?.[0]
-    : session?.user?.name;
-
-  console.log(session);
   return (
     <header className="px-5 py-3 bg-white shadow-sm font-work-sans">
       <nav className="flex justify-between items-center">
@@ -18,7 +13,7 @@ const NavBar = async () => {
           <Image src={"/logo.png"} alt="logo" width={144} height={30} />
         </Link>
 
-        <div className="flex items-center gap-5 text-black">
+        <div className="flex items-center gap-5 text-black font-semibold">
           {session && session?.user ? (
             <>
               <Link href="/startup/create">
@@ -31,10 +26,18 @@ const NavBar = async () => {
                   await signOut();
                 }}
               >
-                <button type="submit">Logout</button>
+                <button type="submit" className="text-[#EF4444]">
+                  Logout
+                </button>
               </form>
               <Link href={`/user/${session?.user?.id}`}>
-                <span>{userName}</span>
+                <Image
+                  src={session?.user.image || ""}
+                  alt="user profile image"
+                  width={35}
+                  height={35}
+                  className="rounded-full shadow-sm"
+                />
               </Link>
             </>
           ) : (
