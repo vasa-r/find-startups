@@ -1,6 +1,7 @@
 interface Author {
   _id: number;
   name: string;
+  image: string;
 }
 
 export interface StartupCardType {

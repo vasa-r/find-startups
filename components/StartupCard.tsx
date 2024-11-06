@@ -1,16 +1,18 @@
 import { formatDate } from "@/lib/utils";
-import { StartupCardType } from "@/types/type";
 import { EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
+import { Author, Startup } from "@/sanity.types";
 
-const StartupCard = ({ post }: { post: StartupCardType }) => {
+export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author };
+
+const StartupCard = ({ post }: { post: StartupTypeCard }) => {
   const {
     _createdAt,
     views,
-    author: { _id: authorId, name },
+    author,
     title,
     description,
     category,
@@ -30,14 +32,14 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
 
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
-          <Link href={`/user/${authorId}`}>
-            <p className="text-16-medium line-clamp-1">{name}</p>
+          <Link href={`/user/${author?._id}`}>
+            <p className="text-16-medium line-clamp-1">{author?.name}</p>
           </Link>
           <Link href={`/startup/${_id}`}>
             <h3 className="text-26-semibold line-clamp-1">{title}</h3>
           </Link>
         </div>
-        <Link href={`/user/${authorId}`}>
+        <Link href={`/user/${author?._id}`}>
           <Image
             src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
             alt="placeholder"
@@ -51,7 +53,10 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
       <Link href={`/startup/${_id}`}>
         <p className="startup-card_desc">{description}</p>
         <Image
-          src={image}
+          src={
+            image ||
+            "https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
+          }
           alt="placeholder"
           className="startup-card_img"
           width={100}
